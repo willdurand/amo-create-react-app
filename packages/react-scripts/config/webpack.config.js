@@ -37,6 +37,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 const postcssNormalize = require('postcss-normalize');
+const SubresourceIntegrityPlugin = require('webpack-subresource-integrity');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -607,6 +608,8 @@ module.exports = function(webpackEnv) {
           };
         },
       }),
+      isEnvProduction &&
+        new SubresourceIntegrityPlugin({ hashFuncNames: ['sha256', 'sha384'] }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how Webpack interprets its code. This is a practical
       // solution that requires the user to opt into importing specific locales.
